@@ -39,7 +39,7 @@ module SafeAttributes
       # attribute= method if that method name is in the list of
       # bad names
       #
-      def define_method_attribute=(attr_name)
+      def define_method_attribute=(attr_name, owner:)
         method = attr_name + '='
         return if (bad_attribute_names.include?(method.to_sym))
         super(attr_name)
