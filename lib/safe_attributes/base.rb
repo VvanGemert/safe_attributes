@@ -42,7 +42,7 @@ module SafeAttributes
       def define_method_attribute=(attr_name, owner:)
         method = attr_name + '='
         return if (bad_attribute_names.include?(method.to_sym))
-        super(attr_name)
+        super(attr_name, owner: owner)
       end
 
       def instance_method_already_implemented?(method_name)
