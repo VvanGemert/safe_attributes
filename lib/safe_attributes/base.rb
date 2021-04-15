@@ -5,12 +5,12 @@ module SafeAttributes
     extend ActiveSupport::Concern
 
     module ClassMethods
-      # 
-      # Within your model call this method once with a list of 
-      # methods matching either attribute() or attribute=() for 
+      #
+      # Within your model call this method once with a list of
+      # methods matching either attribute() or attribute=() for
       # attributes (column names) you do not want to create the
       # the normal method for.  You should not need to do this
-      # but the option is there in case the default list is 
+      # but the option is there in case the default list is
       # inadequate.
       #
       def bad_attribute_names(*attrs)
@@ -24,12 +24,12 @@ module SafeAttributes
         }.call
       end
 
-      # 
+      #
       # Override the default implementation to not create the
       # attribute() method if that method name is in the list of
       # bad names
       #
-      def define_method_attribute(attr_name)
+      def define_attribute_method(attr_name, _owner: generated_attribute_methods)
         return if (bad_attribute_names.include?(attr_name.to_sym))
         super(attr_name)
       end
@@ -46,7 +46,7 @@ module SafeAttributes
       end
 
       def instance_method_already_implemented?(method_name)
-        begin 
+        begin
           return super(method_name)
         rescue ActiveRecord::DangerousAttributeError
           return true
